@@ -1,13 +1,23 @@
-import React from 'react';
-import Image from 'next/image'; // Assuming you're using Next.js for Image component
+"use client"
+
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
+  const currentPathname = usePathname();
+  // Handle root path or /admin to show "dashboard", otherwise use the last segment
+  const pageName = (currentPathname === '/' || currentPathname === '/admin')
+    ? 'dashboard'
+    : currentPathname.split('/').filter(Boolean).pop() || 'dashboard';
+
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between border-[#E4E4E4] bg-[#FFFFFF] py-4">
       <div className="relative ml-10">
         <section>
-          <h2 className='text-[32px] font-medium'>Dashboard overview</h2>
-          <p className='text-[22px] font-base'>You can see all of the overview of your app from here.</p>
+          <h1 className="text-3xl font-bold capitalize">
+            {pageName}
+          </h1>
+          <p className='text-[22px] font-base mt-2'>You can see all of the overview of your app from here.</p>
         </section>
       </div>
       <div className="flex mr-6 gap-2">
