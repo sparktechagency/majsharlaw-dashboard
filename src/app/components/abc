@@ -1,0 +1,45 @@
+const servicesList = ['Cleaning', 'Moving', 'Remodeling'];
+const initialUsers = new Array(35).fill(null).map((_, i) => ({
+id: `00${i + 1}`,
+name: `Md. Abid`,
+email: `example@gmail.com`,
+date: `Thursday, March 27, 2025`,
+time: '10:00 PM',
+services: servicesList[Math.floor(Math.random() * servicesList.length)],
+avatar: '/assets/user.png',
+}));
+
+
+
+{showProfileModal && selectedUser && (
+                    <div className="fixed inset-0 z-50 bg-white bg-opacity-0.5 flex justify-center items-center">
+                        <div className="bg-black rounded-lg shadow-lg p-6 w-full max-w-lg relative">
+
+                            <div className="flex flex-col items-center gap-3">
+                                <img src={selectedUser.avatar} alt="Avatar" className="w-25 h-25 rounded-full object-cover" />
+                                <h2 className="text-xl font-semibold mb-10"> {selectedUser.name}</h2>
+                                <div className='flex justify-between gap-30'>
+                                    <div className="flex flex-col text-xl gap-5">
+                                        <p>Email:</p>
+                                        <p>Address:</p>
+                                        <p>Service Booked:</p>
+                                        <p>Reorderd:</p>
+                                    </div>
+                                    <div className='flex flex-col text-xl font-medium gap-5'>
+                                        <p>{selectedUser.email}</p>
+                                        <p>{selectedUser.Adress}</p>
+                                        <p>5 times</p>
+                                        <p>3 times</p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setShowProfileModal(false)}
+                                    className='bg-[#4B5320] w-full rounded-lg py-2 my-5 text-white text-xl font-semibold'
+                                >
+                                    close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+

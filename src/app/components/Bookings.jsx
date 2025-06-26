@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, Eye, Trash } from 'lucide-react';
 import {
     Select,
@@ -8,9 +8,9 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
+} from "@/components/ui/select";
+import { CiFilter } from "react-icons/ci";
+import { RxCrossCircled } from "react-icons/rx";
 
 const servicesList = ['Cleaning', 'Moving', 'Remodeling'];
 const initialUsers = new Array(35).fill(null).map((_, i) => ({
@@ -47,7 +47,9 @@ const Bookings = () => {
     const [currentUsers, setCurrentUsers] = useState(initialUsers);
     const [currentPage, setCurrentPage] = useState(1);
     const [status, setStatus] = useState('pending');
+    const [isOpen, setIsOpen] = useState(false); // State for toggling dropdown
     const itemsPerPage = 10;
+    const services = ['Cleaning', 'Moving', 'Remodeling'];
 
     const filteredUsers = useMemo(() => {
         if (!searchTerm) return currentUsers;
@@ -112,11 +114,262 @@ const Bookings = () => {
         ));
     };
 
+    // Service-specific modal content
+    const renderProfileModal = () => {
+        if (!selectedUser) return null;
+
+        let modalContent = (
+            <div className="flex flex-col items-center gap-3">
+                <img src={selectedUser.avatar} alt="Avatar" className="w-25 h-25 rounded-full object-cover" />
+                <h2 className="text-xl font-semibold mb-10">{selectedUser.name}</h2>
+                <div className="flex justify-between gap-30">
+                    <div className="flex flex-col text-xl gap-5">
+                        <p>Email:</p>
+                        <p>Address:</p>
+                        <p>Service Booked:</p>
+                        <p>Reordered:</p>
+                    </div>
+                    <div className="flex flex-col text-xl font-medium gap-5">
+                        <p>{selectedUser.email}</p>
+                        <p>{selectedUser.address || 'N/A'}</p> {/* Fixed typo: Adress to address */}
+                        <p>5 times</p>
+                        <p>3 times</p>
+                    </div>
+                </div>
+                <button
+                    onClick={() => setShowProfileModal(false)}
+                    className="bg-[#4B5320] w-full rounded-lg py-2 my-5 text-white text-xl font-semibold"
+                >
+                    Close
+                </button>
+            </div>
+        );
+
+        // Customize modal based on service
+        switch (selectedUser.services) {
+            case 'Cleaning':
+                modalContent = (
+                    <div className=" flex flex-col items-center gap-2">
+                        <div className='absolute top-0 right-0 p-3' onClick={() => setShowProfileModal(false)}>
+                            <RxCrossCircled className='text-4xl' />
+                        </div>
+                        <img src={selectedUser.avatar} alt="Avatar" className="w-25 h-25 rounded-full object-cover" />
+                        <h2 className="text-xl font-semibold">{selectedUser.name}</h2>
+                        <h2 className="text-xl font-medium mb-5">{selectedUser.email}</h2>
+                        <div className='w-full flex flex-col items-center gap-4'>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Service:</p>
+                                <p className='text-xl font-medium'>Cleaning</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Zip Code:</p>
+                                <p className='text-xl font-medium'>19801</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>House Size:</p>
+                                <p className='text-xl font-medium'>1000-3000 sq ft</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Rooms:</p>
+                                <p className='text-xl font-medium'>Bedroom - 2 <br />Kitchen - 2</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Date:</p>
+                                <p className='text-xl font-medium'>Thursday, March 27, 2025</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Time:</p>
+                                <p className='text-xl font-medium'>02:00 PM</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Cost:</p>
+                                <p className='text-2xl font-medium'>$250.00</p>
+                            </div>
+                            <div className='flex justify-between items-end gap-3 w-2/3'>
+                                <button
+                                    onClick={() => setShowProfileModal(false)}
+                                    className="bg-[#FF5353] w-full rounded-sm py-3 my-5 text-white text-xl font-semibold"
+                                >
+                                    Decline
+                                </button>
+                                <button
+                                    onClick={() => setShowProfileModal(false)}
+                                    className="bg-[#6DA40A] w-full rounded-sm py-3 my-5 text-white text-xl font-semibold"
+                                >
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                );
+                break;
+            case 'Moving':
+                modalContent = (
+                    <div className=" flex flex-col items-center gap-2">
+                        <img src={selectedUser.avatar} alt="Avatar" className="w-25 h-25 rounded-full object-cover" />
+                        <div className='absolute top-0 right-0 p-3' onClick={() => setShowProfileModal(false)}>
+                            <RxCrossCircled className='text-4xl' />
+                        </div>
+                        <h2 className="text-xl font-semibold">{selectedUser.name}</h2>
+                        <h2 className="text-xl font-medium mb-5">{selectedUser.email}</h2>
+                        <div className='w-full flex flex-col items-center gap-4'>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Service:</p>
+                                <p className='text-xl font-medium'>Moving</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Zip Code:</p>
+                                <p className='text-xl font-medium'>19801</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>House Location:</p>
+                                <p className='text-xl font-medium'>Dhaka, Bangladesh</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Moving Type:</p>
+                                <p className='text-xl font-medium'>Packing & Moving</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Moving Area:</p>
+                                <p className='text-xl font-medium'>2 - 4 Bedrooms</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Moving TO:</p>
+                                <p className='text-xl font-medium'>Same state</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Moving Location:</p>
+                                <p className='text-xl font-medium'>Dhaka, Bangladesh</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Date:</p>
+                                <p className='text-xl font-medium'>Thursday, March 27, 2025</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Time:</p>
+                                <p className='text-xl font-medium'>02:00 PM</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Cost:</p>
+                                <p className='text-2xl font-medium'>$250.00</p>
+                            </div>
+                            <div className='flex justify-between items-end gap-3 w-2/3'>
+                                <button
+                                    onClick={() => setShowProfileModal(false)}
+                                    className="bg-[#FF5353] w-full rounded-sm py-3 my-5 text-white text-xl font-semibold"
+                                >
+                                    Decline
+                                </button>
+                                <button
+                                    onClick={() => setShowProfileModal(false)}
+                                    className="bg-[#6DA40A] w-full rounded-sm py-3 my-5 text-white text-xl font-semibold"
+                                >
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                );
+                break;
+            case 'Remodeling':
+                modalContent = (
+                    <div className=" flex flex-col items-center gap-2">
+                        <img src={selectedUser.avatar} alt="Avatar" className="w-25 h-25 rounded-full object-cover" />
+                        <div className='absolute top-0 right-0 p-3' onClick={() => setShowProfileModal(false)}>
+                            <RxCrossCircled className='text-4xl' />
+                        </div>
+                        <h2 className="text-xl font-semibold">{selectedUser.name}</h2>
+                        <h2 className="text-xl font-medium mb-5">{selectedUser.email}</h2>
+                        <div className='w-full flex flex-col items-center gap-3'>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Service:</p>
+                                <p className='text-xl font-medium'>Remodeling</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Zip Code:</p>
+                                <p className='text-xl font-medium'>19801</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Property Type:</p>
+                                <p className='text-xl font-medium'>Home / Single family</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Property Owner:</p>
+                                <p className='text-xl font-medium'>Yes</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Planning to renovate:</p>
+                                <p className='text-xl font-medium'>Whitin a month</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Areas to renovate:</p>
+                                <p className='text-xl font-medium'>SBedroom, Bathroom</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Size of house:</p>
+                                <p className='text-xl font-medium'>Aprx 1000 sq ft</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Working with anyone:</p>
+                                <p className='text-xl font-medium'>Yes</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Level of budget:</p>
+                                <p className='text-xl font-medium'>Mid level</p>
+                            </div>
+                            <div className='flex justify-between items-center text-right w-full'>
+                                <p className='text-xl'>Property address:</p>
+                                <p className='text-xl font-medium'>Dhaka, Bangladesh</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Date:</p>
+                                <p className='text-xl font-medium'>Thursday, March 27, 2025</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Time:</p>
+                                <p className='text-xl font-medium'>02:00 PM</p>
+                            </div>
+                            <div className='flex justify-between items-end w-full'>
+                                <p className='text-xl'>Cost:</p>
+                                <p className='text-2xl font-medium'>$250.00</p>
+                            </div>
+                            <div className='flex justify-between items-end gap-3 w-2/3 '>
+                                <button
+                                    onClick={() => setShowProfileModal(false)}
+                                    className="bg-[#FF5353] w-full rounded-sm py-3 my-2 text-white text-xl font-semibold"
+                                >
+                                    Decline
+                                </button>
+                                <button
+                                    onClick={() => setShowProfileModal(false)}
+                                    className="bg-[#6DA40A] w-full rounded-sm py-3 my-2 text-white text-xl font-semibold"
+                                >
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+                break;
+        }
+
+        return (
+            <div className=" fixed inset-0 z-50 flex justify-center items-center">
+                <div className="absolute inset-0 bg-black opacity-40"></div>
+                <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-lg relative">
+                    {modalContent}
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div>
             <div className="bg-[#F6F6F6] rounded-lg text-white p-6">
                 <div className="flex justify-between items-center mb-4">
-                    <div className="flex jus items-center gap-2">
+                    <div className="flex items-center gap-2">
                         <div className="relative">
                             <input
                                 type="text"
@@ -136,7 +389,40 @@ const Bookings = () => {
                             </button>
                         </div>
                     </div>
-                    <Button>Filters</Button>
+                    <div className="flex gap-3">
+                        <button className="py-3 px-5 font-medium rounded-sm bg-[#007AFF]">30</button>
+                        <button className="py-3 px-5 font-medium rounded-sm bg-[#6DA40A]">60</button>
+                        <button className="py-3 px-5 font-medium rounded-sm bg-[#8C63DA]">10</button>
+                        <button className="py-3 px-5 font-medium rounded-sm bg-[#FF8C00]">10</button>
+                        <button className="py-3 px-5 font-medium rounded-sm bg-[#FF5353]">10</button>
+                    </div>
+                    <div>
+                        <div className="relative">
+                            {/* Filter Button */}
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                className="bg-green-600 text-base font-medium text-white px-7 py-3 ml-5 rounded-lg flex items-center gap-1 hover:bg-green-700 transition"
+                            >
+                                <CiFilter className="font-bold text-2xl" />
+                                Filter
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {isOpen && (
+                                <div className="absolute mt-3 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                    {services.map((service, index) => (
+                                        <button
+                                            key={index}
+                                            className="block border-b w-full text-center px-6 py-2 text-gray-800 hover:bg-gray-100 rounded-lg transition"
+                                            onClick={() => setIsOpen(!isOpen)}
+                                        >
+                                            {service}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -161,43 +447,43 @@ const Bookings = () => {
                             ) : (
                                 currentUsersDisplayed.map((user) => (
                                     <tr key={user.id} className="text-sm text-black bg-white">
-                                        <td className="py-5 px-4 text-center">
+                                        <td className="py-3 px-4 text-center">
                                             <div className="flex text-xl justify-center items-center gap-2">
                                                 <img src={user.avatar} alt="avatar" width={40} height={40} className="rounded-full" />
                                                 {user.name}
                                             </div>
                                         </td>
-                                        <td className="py-5 px-4 text-center text-xl">{user.email}</td>
-                                        <td className="py-5 px-4 text-center text-xl">
+                                        <td className="py-3 px-4 text-center text-xl">{user.email}</td>
+                                        <td className="py-3 px-4 text-center text-xl">
                                             {user.date}
-                                            <p className='font-light mr-38'>{user.time}</p>
+                                            <p className="font-light mr-38">{user.time}</p>
                                         </td>
-                                        <td className="py-5 px-4 text-center text-xl">{user.services}</td>
-                                        <td className="py-5 px-4 text-center">
+                                        <td className="py-3 px-4 text-center text-xl">{user.services}</td>
+                                        <td className="py-3 px-4 text-center">
                                             <Select value={status} onValueChange={(val) => setStatus(val)}>
-                                                <SelectTrigger className=" border-[1px] border-black rounded-3xl px-2 py-8 ">
+                                                <SelectTrigger className="border-[1px] border-black rounded-3xl px-2 py-8">
                                                     <SelectValue>{renderValue(status)}</SelectValue>
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem className={`bg-[#007AFF] mb-2 text-base font-medium text-white`} value="Pending">Pending</SelectItem>
-                                                    <SelectItem className={`bg-[#6DA40A] mb-2 text-base font-medium text-white`} value="Approve">Approve</SelectItem>
-                                                    <SelectItem className={`bg-[#8C63DA] mb-2 text-base font-medium text-white`} value="Ongoing">Ongoing</SelectItem>
-                                                    <SelectItem className={`bg-[#FF8C00] mb-2 text-base font-medium text-white`} value="Completed">Completed</SelectItem>
-                                                    <SelectItem className={`bg-[#FF5353] mb-2 text-base font-medium text-white`} value="Decline">Decline</SelectItem>
+                                                    <SelectItem className="bg-[#007AFF] mb-2 text-base font-medium text-white" value="Pending">Pending</SelectItem>
+                                                    <SelectItem className="bg-[#6DA40A] mb-2 text-base font-medium text-white" value="Approve">Approve</SelectItem>
+                                                    <SelectItem className="bg-[#8C63DA] mb-2 text-base font-medium text-white" value="Ongoing">Ongoing</SelectItem>
+                                                    <SelectItem className="bg-[#FF8C00] mb-2 text-base font-medium text-white" value="Completed">Completed</SelectItem>
+                                                    <SelectItem className="bg-[#FF5353] mb-2 text-base font-medium text-white" value="Decline">Decline</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </td>
-                                        <td className="py-5 px-4 text-center">
+                                        <td className="py-3 px-4 text-center">
                                             <div className="flex justify-center gap-2">
                                                 <button
                                                     onClick={() => handleViewUser(user.id)}
-                                                    className="px-2 py-1 bg-[#F2FFDA] rounded-lg hover:opacity-80"
+                                                    className="px-2 py-2 bg-[#F2FFDA] rounded-lg hover:opacity-80"
                                                 >
-                                                    <Eye className='text-[#6DA40A]' />
+                                                    <Eye className="text-[#6DA40A]" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(user.id)}
-                                                    className="px-2 py-1 bg-[#FFE8E8] text-[#FF5353] rounded-lg hover:opacity-80"
+                                                    className="px-2 py-2 bg-[#FFE8E8] text-[#FF5353] rounded-lg hover:opacity-80"
                                                 >
                                                     <Trash />
                                                 </button>
@@ -209,10 +495,9 @@ const Bookings = () => {
                         </tbody>
                     </table>
                 </div>
-
                 <div className="flex justify-between items-center mt-6 gap-2 text-sm text-black">
                     <div>
-                        <h2 className='text-base'>Total Bookings: <span className='text-2xl'>100</span></h2>
+                        <h2 className="text-base">Total Bookings: <span className="text-2xl">100</span></h2>
                     </div>
                     <div className="flex justify-end items-center gap-2">
                         <button
@@ -220,7 +505,7 @@ const Bookings = () => {
                             disabled={currentPage === 1}
                             className="w-8 h-8 flex items-center justify-center border rounded-full border-[#F1F1F1] disabled:opacity-50"
                         >
-                            &lt;
+                            {'<'}
                         </button>
                         {renderPageNumbers()}
                         <button
@@ -228,75 +513,46 @@ const Bookings = () => {
                             disabled={currentPage === totalPages}
                             className="w-8 h-8 flex items-center justify-center border rounded-full border-[#F1F1F1] disabled:opacity-50"
                         >
-                            &gt;
+                            {'>'}
                         </button>
                     </div>
                 </div>
-                {showProfileModal && selectedUser && (
-                    <div className="fixed inset-0 z-50 bg-white bg-opacity-0.5 flex justify-center items-center">
-                        <div className="bg-black rounded-lg shadow-lg p-6 w-full max-w-lg relative">
-
-                            <div className="flex flex-col items-center gap-3">
-                                <img src={selectedUser.avatar} alt="Avatar" className="w-25 h-25 rounded-full object-cover" />
-                                <h2 className="text-xl font-semibold mb-10"> {selectedUser.name}</h2>
-                                <div className='flex justify-between gap-30'>
-                                    <div className="flex flex-col text-xl gap-5">
-                                        <p>Email:</p>
-                                        <p>Address:</p>
-                                        <p>Service Booked:</p>
-                                        <p>Reorderd:</p>
-                                    </div>
-                                    <div className='flex flex-col text-xl font-medium gap-5'>
-                                        <p>{selectedUser.email}</p>
-                                        <p>{selectedUser.Adress}</p>
-                                        <p>5 times</p>
-                                        <p>3 times</p>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => setShowProfileModal(false)}
-                                    className='bg-[#4B5320] w-full rounded-lg py-2 my-5 text-white text-xl font-semibold'
-                                >
-                                    close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-                {showDeleteModal && userToDelete && (
-                    <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex justify-center items-center">
-                        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm relative">
-                            <div className="flex items-start gap-2">
-                                <span className="text-yellow-500 text-2xl">⚠️</span>
-                                <p className="text-lg font-medium text-gray-800">
-                                    Are you sure you want to delete this user?
-                                </p>
-                            </div>
-
-                            <div className="flex justify-end gap-4 mt-6">
-                                <button
-                                    className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
-                                    onClick={() => setShowDeleteModal(false)}
-                                >
-                                    No
-                                </button>
-                                <button
-                                    className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-                                    onClick={() => {
-                                        setCurrentUsers(prev => prev.filter(user => user.id !== userToDelete.id));
-                                        setShowDeleteModal(false);
-                                        setUserToDelete(null);
-                                    }}
-                                >
-                                    Yes
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
-        </div>
 
+            {showProfileModal && selectedUser && renderProfileModal()}
+            {showDeleteModal && userToDelete && (
+                <div className="fixed inset-0 z-50  flex justify-center items-center">
+                    <div className="absolute inset-0 bg-black opacity-50"></div>
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm relative">
+                        <div className="flex items-start gap-2">
+                            <span className="text-yellow-500 text-2xl">⚠️</span>
+                            <p className="text-lg font-medium text-gray-800">
+                                Are you sure you want to delete this user?
+                            </p>
+                        </div>
+
+                        <div className="flex justify-end gap-4 mt-6">
+                            <button
+                                className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
+                                onClick={() => setShowDeleteModal(false)}
+                            >
+                                No
+                            </button>
+                            <button
+                                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                                onClick={() => {
+                                    setCurrentUsers((prev) => prev.filter((user) => user.id !== userToDelete.id));
+                                    setShowDeleteModal(false);
+                                    setUserToDelete(null);
+                                }}
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

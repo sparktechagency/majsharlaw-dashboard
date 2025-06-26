@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react'; // Added useMemo for performance
+import React, { useState, useMemo, useRef } from 'react'; // Added useMemo for performance
 import { ArrowLeft, Plus, Edit2, Trash2, Search, Eye, Trash } from 'lucide-react'; // Using Lucide for icons
 import Header from './Topbar';
 import Image from 'next/image';
@@ -28,7 +28,7 @@ const UserManagement = () => {
     const [currentUsers, setCurrentUsers] = useState(initialUsers); // State to manage user data
     const [currentPage, setCurrentPage] = useState(1); // New state for current page
     const itemsPerPage = 10; // Number of items per page
-
+    const modalRef = useRef(null); // Ref to the modal content
     // Filter users based on search term
     const filteredUsers = useMemo(() => {
         if (!searchTerm) {
@@ -70,6 +70,12 @@ const UserManagement = () => {
         setSelectedUser(user);
         setShowProfileModal(true);
     };
+    const handleClickOutside = (event) => {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            setShowDeleteModal(false);
+            setUserToDelete(null);
+        }
+      };
 
 
     // Function to render page numbers dynamically
@@ -109,8 +115,7 @@ const UserManagement = () => {
 
     return (
         <>
-            <div>
-                
+            <div>             
                 <div className="bg-[#F6F6F6] rounded-lg text-white p-6">
                     {/* Header */}
 
@@ -123,7 +128,7 @@ const UserManagement = () => {
                                     <input
                                         type="text"
                                         placeholder="Search fo user"
-                                        className="pl-10 border-[1px] border-[#D9D9D9] pr-50 bg-white text-[#00000040] py-2 rounded-tl-md rounded-bl-md text-sm focus:outline-none focus:ring-1 focus:ring-[#6DA40A]"
+                                        className="pl-10 border-[1px] border-[#D9D9D9] pr-50 bg-white text-[#00000070] py-3 text-md focus:outline-none focus:ring-1 focus:ring-[#6DA40A]"
                                         value={searchTerm}
                                         onChange={(e) => {
                                             setSearchTerm(e.target.value);
@@ -134,7 +139,7 @@ const UserManagement = () => {
                                 {/* Filter button with SVG - now acts as a visual trigger for search */}
                                 <button
                                     onClick={() => setSearchTerm(searchTerm)} // Re-apply current search term (triggers memoized filter)
-                                    className="hover:bg-gray-700 transition-colors bg-[#6DA40A] p-[7px]"
+                                    className="hover:bg-gray-700 transition-colors bg-[#6DA40A] p-3"
                                 >
                                     <Search className=" text-[#FFFFFF]" />
                                 </button>
@@ -157,46 +162,46 @@ const UserManagement = () => {
                             <tbody>
                                 {currentUsersDisplayed.length === 0 ? (
                                     <tr>
-                                        <td colSpan="5" className="py-4 text-center text-gray-400 border-gray-600">
+                                        <td colSpan="5" className="py-4 text-center text-gray-400">
                                             No users found matching your search.
                                         </td>
                                     </tr>
                                 ) : (
                                     currentUsersDisplayed.map((user) => (
-                                        <tr key={user.id} className="text-sm text-black bg-white">
-                                            <td className="py-7 px-4 text-center border-gray-600">
+                                        <tr key={user.id} className="text-base font-normal text-black bg-white">
+                                            <td className="py-5 px-4 text-center">
                                                 {user.id}
                                             </td>
-                                            <td className="py-7 px-4 text-center border-gray-600">
-                                                <div className="flex justify-center items-center gap-2">
+                                            <td className="py-5 px-4 text-center">
+                                                <div className="flex justify-center items-center text-xl gap-2">
                                                     <img
                                                         src={user.avatar}
                                                         alt="avatar"
-                                                        width={30}
-                                                        height={30}
+                                                        width={39}
+                                                        height={39}
                                                         className="rounded-full"
                                                         onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/24x24/cccccc/000000?text=A" }}
                                                     />
                                                     {user.name}
                                                 </div>
                                             </td>
-                                            <td className="py-7 px-4 text-center border-gray-600">
+                                            <td className="py-5 px-4 text-lg text-center">
                                                 {user.email}
                                             </td>
-                                            <td className="py-7 px-4 text-center border-gray-600">
+                                            <td className="py-5 px-4 text-lg text-center">
                                                 {user.Adress}
                                             </td>
-                                            <td className="py-7 px-4 text-center border-gray-600">
+                                            <td className="py-5 px-4 text-center">
                                                 <div className="flex justify-center gap-2">
                                                     <button
                                                         onClick={() => handleViewUser(user.id)}
-                                                        className="px-1 py-1 text-xs border border-none bg-[#F2FFDA] rounded-lg cursor-pointer hover:opacity-80"
+                                                        className="px-2 py-2 text-xs border border-none bg-[#F2FFDA] rounded-lg cursor-pointer hover:opacity-80"
                                                     >
                                                         <Eye className='text-[#6DA40A]' />
                                                     </button>
                                                     <button
                                                         onClick={() => handleBlockToggle(user.id)}
-                                                        className="px-1 py-1 text-xs border border-none text-[#FF5353] bg-[#FFE8E8] rounded-lg cursor-pointer hover:opacity-80"
+                                                        className="px-2 py-2 text-xs border border-none text-[#FF5353] bg-[#FFE8E8] rounded-lg cursor-pointer hover:opacity-80"
                                                     >
                                                         <Trash />
                                                     </button>
@@ -237,20 +242,27 @@ const UserManagement = () => {
                     </div>
                 </div>
                 {showProfileModal && selectedUser && (
-                    <div className="fixed inset-0 z-50 bg-white bg-opacity-0.5 flex justify-center items-center">
-                        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg relative">
+                    <div className="fixed inset-0 z-50 flex justify-center items-center" >
+                        {/* Overlay for darkening the background */}
+                        <div className="absolute inset-0 bg-black opacity-50"></div>
 
+                        {/* Modal content */}
+                        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg relative z-10">
                             <div className="flex flex-col items-center gap-3">
-                                <img src={selectedUser.avatar} alt="Avatar" className="w-25 h-25 rounded-full object-cover" />
-                                <h2 className="text-xl font-semibold mb-10"> {selectedUser.name}</h2>
-                                <div className='flex justify-between gap-30'>
+                                <img
+                                    src={selectedUser.avatar}
+                                    alt="Avatar"
+                                    className="w-25 h-25 rounded-full object-cover"
+                                />
+                                <h2 className="text-xl font-semibold mb-10">{selectedUser.name}</h2>
+                                <div className="flex justify-between gap-30">
                                     <div className="flex flex-col text-xl gap-5">
                                         <p>Email:</p>
                                         <p>Address:</p>
                                         <p>Service Booked:</p>
-                                        <p>Reorderd:</p>
+                                        <p>Reordered:</p>
                                     </div>
-                                    <div className='flex flex-col text-xl font-medium gap-5'>
+                                    <div className="flex flex-col text-xl font-medium gap-5">
                                         <p>{selectedUser.email}</p>
                                         <p>{selectedUser.Adress}</p>
                                         <p>5 times</p>
@@ -259,35 +271,39 @@ const UserManagement = () => {
                                 </div>
                                 <button
                                     onClick={() => setShowProfileModal(false)}
-                                    className='bg-[#4B5320] w-full rounded-lg py-2 my-5 text-white text-xl font-semibold'
+                                    className="bg-[#4B5320] w-full rounded-lg py-2 my-5 text-white text-xl font-semibold"
                                 >
-                                    close
+                                    Close
                                 </button>
                             </div>
                         </div>
                     </div>
                 )}
                 {showDeleteModal && userToDelete && (
-                    <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex justify-center items-center">
-                        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm relative">
+                    <div className="absolute mr-5 inset-0 z-50 flex justify-center items-center" onClick={handleClickOutside}>
+                        <div className="absolute inset-0 bg-black opacity-50"></div>
+                        <div className="bg-white rounded-sm shadow-lg p-2 w-full max-w-sm relative">
+
                             <div className="flex items-start gap-2">
                                 <span className="text-yellow-500 text-2xl">⚠️</span>
                                 <p className="text-lg font-medium text-gray-800">
-                                    Are you sure you want to delete this user?
+                                    Are you sure you want to delete this booking?
                                 </p>
                             </div>
 
-                            <div className="flex justify-end gap-4 mt-6">
+                            <div className="flex justify-end gap-1 mt-1">
                                 <button
-                                    className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
+                                    className="px-2 py-1 border rounded text-gray-700 hover:bg-gray-100"
                                     onClick={() => setShowDeleteModal(false)}
                                 >
                                     No
                                 </button>
                                 <button
-                                    className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                                    className="px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700"
                                     onClick={() => {
-                                        setCurrentUsers(prev => prev.filter(user => user.id !== userToDelete.id));
+                                        setCurrentUsers((prev) =>
+                                            prev.filter((user) => user.id !== userToDelete.id)
+                                        );
                                         setShowDeleteModal(false);
                                         setUserToDelete(null);
                                     }}

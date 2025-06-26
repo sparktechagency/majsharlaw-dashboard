@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FaPen } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
+import Link from 'next/link';
 
 const ServiceCard = () => {
     const pricingOptions = [
@@ -11,25 +12,25 @@ const ServiceCard = () => {
         { label: "1000 - 3000 square feet", price: "$330.00" },
         { label: "More than 4000 square feet", price: "$500.00" },
         { label: "For 1 room", price: "$50.00" },
-      ];
+    ];
     const movingOptions = [
         { label: "Moving Type", price: "Packing & Moving, Packing, Moving" },
         { label: "Area large", price: "Studio, 1 Bedroom, 2 - 4 bedrooms... " },
         { label: "Moving state", price: "Same, Different" },
         { label: "Area large", price: "$Studio, 1 Bedroom, 2 - 4 bedrooms... " },
-      ];
+    ];
     const plumbOptions = [
         { label: "Issue", price: "Water leak, Water heater, Sink..." },
         { label: "Describe issue", price: "Type" },
         { label: "Type of property", price: "Home, Apartment, Townhouse..." },
         { label: "Current status", price: "Just exploring, ready to hire..." },
-      ];
+    ];
     const carpentaryOptions = [
         { label: "Work type", price: "Furniture making, Custom cabinet" },
         { label: "Describe", price: "Type" },
         { label: "Measurements (if possible)", price: "less then 20 sq ft, ..." },
         { label: "Budget", price: "Low, Mid, High" },
-      ];
+    ];
     const remodelOptions = [
         { label: "Property Type", price: "Apartment, Home / Single Family.." },
         { label: "Own Property?", price: "Yes, Almost, No, Representative" },
@@ -38,7 +39,7 @@ const ServiceCard = () => {
         { label: "Approximate size of ouse", price: "in square feet" },
         { label: "Working with anyone?", price: "Yes, No" },
         { label: "Budget", price: "Low, Mid, High" },
-      ];
+    ];
 
     return (
         <div>
@@ -144,9 +145,11 @@ const ServiceCard = () => {
                     </CardContent>
                 </Card>
             </div>
-            <Button className={`w-2/11 my-8 rounded-3xl`}>
-                <FiPlus /> Add new service 
-            </Button>
+            <Link href={`/admin/add-new-service`}>
+                <Button className={`w-2/11 my-8 rounded-3xl`}>
+                    <FiPlus /> Add new service
+                </Button>
+            </Link>
         </div>
     );
 };
