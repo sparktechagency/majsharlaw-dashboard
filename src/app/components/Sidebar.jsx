@@ -4,22 +4,25 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
  Image as ImageIcon,
-  ChartPie,
   Users2,
-  Crown,
   Settings,
+  LayoutDashboard,
+  LibraryBig,
+  Wrench,
+  Store,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import { TbLayout2 } from "react-icons/tb";
 // import dreckks from '../../public/dreckks-logo.png';
 // import barss from '../../public/icon/bars.png';
 
 const navItems = [
-  { name: 'Dashboard', href: '/admin', icon: ChartPie },
+  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Users', href: '/admin/users', icon: Users2 },
-  { name: 'Bookings', href: '/admin/bookings', icon: Crown },
-  { name: 'Services', href: '/admin/services', icon: Settings },
-  { name: 'Providers', href: '/admin/providers', icon: Settings },
+  { name: 'Bookings', href: '/admin/bookings', icon: LibraryBig },
+  { name: 'Services', href: '/admin/services', icon: Wrench },
+  { name: 'Providers', href: '/admin/providers', icon: Store },
   { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
