@@ -409,11 +409,11 @@ const Bookings = () => {
 
                             {/* Dropdown Menu */}
                             {isOpen && (
-                                <div className="absolute mt-3 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                                <div className="absolute right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
                                     {services.map((service, index) => (
                                         <button
                                             key={index}
-                                            className="block border-b w-full text-center px-6 py-2 text-gray-800 hover:bg-gray-100 rounded-lg transition"
+                                            className="block w-full border-b-2 text-center px-6  py-2 text-gray-800 hover:bg-gray-100  transition"
                                             onClick={() => setIsOpen(!isOpen)}
                                         >
                                             {service}

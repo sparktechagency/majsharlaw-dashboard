@@ -48,7 +48,7 @@ const ServiceCard = () => {
                 <Card className="row-span-2 w-full mx-auto bg-white rounded-xl shadow-sm border border-gray-200">
                     <CardHeader className="flex flex-row items-center justify-end ">
                         <CardTitle className="text-2xl font-semibold">Cleaning Service</CardTitle>
-                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12">
+                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12 hover:cursor-pointer">
                             <FaPen /> Edit
                         </Button>
                     </CardHeader>
@@ -68,7 +68,7 @@ const ServiceCard = () => {
                 <Card className="row-span-2 col-start-1 row-start-3 w-full mx-auto bg-white rounded-xl shadow-sm border border-gray-200">
                     <CardHeader className="flex flex-row items-center justify-end ">
                         <CardTitle className="text-2xl font-semibold">Moving Service</CardTitle>
-                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12">
+                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12 hover:cursor-pointer">
                             <FaPen /> Edit
                         </Button>
                     </CardHeader>
@@ -88,7 +88,7 @@ const ServiceCard = () => {
                 <Card className="row-span-2 col-start-2 row-start-1 w-full mx-auto bg-white rounded-xl shadow-sm border border-gray-200">
                     <CardHeader className="flex flex-row items-center justify-end ">
                         <CardTitle className="text-2xl font-semibold">Moving Service</CardTitle>
-                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12">
+                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12 hover:cursor-pointer">
                             <FaPen /> Edit
                         </Button>
                     </CardHeader>
@@ -108,7 +108,7 @@ const ServiceCard = () => {
                 <Card className="row-span-2 col-start-2 row-start-3 w-full mx-auto bg-white rounded-xl shadow-sm border border-gray-200">
                     <CardHeader className="flex flex-row items-center justify-end ">
                         <CardTitle className="text-2xl font-semibold">Moving Service</CardTitle>
-                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12">
+                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12 hover:cursor-pointer">
                             <FaPen /> Edit
                         </Button>
                     </CardHeader>
@@ -128,7 +128,7 @@ const ServiceCard = () => {
                 <Card className="row-span-3 col-start-3 row-start-1 w-full mx-auto bg-white rounded-xl shadow-sm border border-gray-200">
                     <CardHeader className="flex flex-row items-center justify-end ">
                         <CardTitle className="text-2xl font-semibold">Moving Service</CardTitle>
-                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12">
+                        <Button variant="outline" size="xl" className="rounded-3xl w-[100px] text-xl py-2 ml-12 hover:cursor-pointer">
                             <FaPen /> Edit
                         </Button>
                     </CardHeader>
@@ -146,7 +146,7 @@ const ServiceCard = () => {
                 </Card>
             </div>
             <Link href={`/admin/add-new-service`}>
-                <Button className={`w-2/11 my-8 rounded-3xl`}>
+                <Button className={`w-2/11 my-8 rounded-3xl hover:cursor-pointer`}>
                     <FiPlus /> Add new service
                 </Button>
             </Link>

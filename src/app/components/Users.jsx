@@ -1,9 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react'; // Added useMemo for performance
-import { ArrowLeft, Plus, Edit2, Trash2, Search, Eye, Trash } from 'lucide-react'; // Using Lucide for icons
-import Header from './Topbar';
-import Image from 'next/image';
+import {  Search, Eye, Trash } from 'lucide-react'; // Using Lucide for icons
 
 // Mock user data (now includes a status for blocking)
 const initialUsers = new Array(35).fill(null).map((_, i) => ({ // Increased users for pagination demo
@@ -23,7 +21,6 @@ const UserManagement = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [userToDelete, setUserToDelete] = useState(null);
-    const [showJobTitlesModal, setShowJobTitlesModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentUsers, setCurrentUsers] = useState(initialUsers); // State to manage user data
     const [currentPage, setCurrentPage] = useState(1); // New state for current page
@@ -121,7 +118,6 @@ const UserManagement = () => {
 
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex items-center gap-2">
-
                             <div className="flex items-center ">
                                 <div className="relative">
 

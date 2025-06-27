@@ -22,7 +22,7 @@ const navItems = [
   { name: 'Users', href: '/admin/users', icon: Users2 },
   { name: 'Bookings', href: '/admin/bookings', icon: LibraryBig },
   { name: 'Services', href: '/admin/services', icon: Wrench },
-  { name: 'Providers', href: '/admin/providers', icon: Store },
+  { name: 'Providers', href: '/admin/manage-providers', icon: Store },
   { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
 
