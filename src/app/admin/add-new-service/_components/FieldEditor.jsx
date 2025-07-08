@@ -7,6 +7,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import Image from "next/image";
 
 export default function FieldEditor({
   page,
@@ -33,7 +34,7 @@ export default function FieldEditor({
       {/* Field List */}
       <div className="space-y-3">
         {page.fields.map((field) => (
-          <div key={field.id} className="flex gap-4 items-center">
+          <div key={field.id} className="flex gap-4 items-center justify-end">
             {/* Field Name */}
             {field.type === "Text" && (
               <input
@@ -65,22 +66,61 @@ export default function FieldEditor({
               }
             >
               <SelectTrigger className="px-4 py-5 rounded-xl border border-[#00000033] w-[15%]">
-                <SelectValue>{field.type}</SelectValue>
+                <SelectValue className="  flex gap-4">
+                  {" "}
+                  {field.type === "Option" ? (
+                    <Image
+                      src={"/assets/icons/option-icon.svg"}
+                      height={20}
+                      width={20}
+                    />
+                  ) : field.type === "Text" ? (
+                    <Image
+                      src={"/assets/icons/text-icon.svg"}
+                      height={20}
+                      width={20}
+                    />
+                  ) : field.type === "Text Aria" ? (
+                    <Image
+                      src={"/assets/icons/textaria-icon.svg"}
+                      height={20}
+                      width={20}
+                    />
+                  ) : (
+                    ""
+                  )}{" "}
+                  {field.type}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem
-                  className="border-b border-[#00000033] rounded-b-none py-2"
+                  className="border-b border-[#00000033] rounded-b-none py-2  flex gap-4"
                   value="Option"
                 >
+                  <Image
+                    src={"/assets/icons/option-icon.svg"}
+                    height={20}
+                    width={20}
+                  />{" "}
                   Option
                 </SelectItem>
                 <SelectItem
-                  className="border-b border-[#00000033] rounded-b-none py-2"
+                  className="border-b border-[#00000033] rounded-b-none py-2  flex gap-4"
                   value="Text"
                 >
+                  <Image
+                    src={"/assets/icons/text-icon.svg"}
+                    height={20}
+                    width={20}
+                  />{" "}
                   Text
                 </SelectItem>
-                <SelectItem className="py-2" value="Text Aria">
+                <SelectItem className="py-2 flex gap-4" value="Text Aria">
+                  <Image
+                    src={"/assets/icons/textaria-icon.svg"}
+                    height={20}
+                    width={20}
+                  />{" "}
                   Text Aria
                 </SelectItem>
               </SelectContent>

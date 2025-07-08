@@ -19,6 +19,7 @@ import ActionModal from "../../add-new-service/_components/ActionModal";
 import SelectionModal from "../../add-new-service/_components/SelectionModal";
 import UploadImage from "../../add-new-service/_components/UploadImage";
 import ServiceName from "../../add-new-service/_components/ServiceName";
+import Image from "next/image";
 
 export default function EditService(id) {
   const [pages, setPages] = useState([
@@ -347,13 +348,10 @@ export default function EditService(id) {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <ServiceName/>
+      <ServiceName />
       <div className="max-w-5xl mx-auto space-y-6">
         {pages.map((page, index) => (
-          <div
-            key={page.id}
-            className="bg-white rounded-lg p-6 shadow-sm border"
-          >
+          <div key={page.id}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-medium">Page {index + 1}</h2>
               <div className="flex items-center gap-4">
@@ -369,14 +367,85 @@ export default function EditService(id) {
                   }
                 >
                   <SelectTrigger className="border rounded-md px-3 py-1 text-sm">
-                    <SelectValue>{page.type}</SelectValue>
+                    <SelectValue className="flex gap-4">
+                      {" "}
+                      {page.type === "Input" ? (
+                        <Image
+                          src={"/assets/icons/input-icon.svg"}
+                          height={20}
+                          width={20}
+                        />
+                      ) : page.type === "Button" ? (
+                        <Image
+                          src={"/assets/icons/button-icon.svg"}
+                          height={20}
+                          width={20}
+                        />
+                      ) : page.type === "Selection" ? (
+                        <Image
+                          src={"/assets/icons/section-icon.svg"}
+                          height={20}
+                          width={20}
+                        />
+                      ) : page.type === "Date" ? (
+                        <Image
+                          src={"/assets/icons/date-icon.svg"}
+                          height={20}
+                          width={20}
+                        />
+                      ) : page.type === "Time" ? (
+                        <Image
+                          src={"/assets/icons/time-icon.svg"}
+                          height={20}
+                          width={20}
+                        />
+                      ) : (
+                        ""
+                      )}{" "}
+                      {page.type}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Input">Input</SelectItem>
-                    <SelectItem value="Button">Button</SelectItem>
-                    <SelectItem value="Selection">Selection</SelectItem>
-                    <SelectItem value="Date">Date</SelectItem>
-                    <SelectItem value="Time">Time</SelectItem>
+                    <SelectItem value="Input" className="flex gap-4">
+                      <Image
+                        src={"/assets/icons/input-icon.svg"}
+                        height={20}
+                        width={20}
+                      />{" "}
+                      Input
+                    </SelectItem>
+                    <SelectItem value="Button" className="flex gap-4">
+                      <Image
+                        src={"/assets/icons/button-icon.svg"}
+                        height={20}
+                        width={20}
+                      />{" "}
+                      Button
+                    </SelectItem>
+                    <SelectItem value="Selection" className="flex gap-4">
+                      <Image
+                        src={"/assets/icons/section-icon.svg"}
+                        height={20}
+                        width={20}
+                      />{" "}
+                      Selection
+                    </SelectItem>
+                    <SelectItem value="Date" className="flex gap-4">
+                      <Image
+                        src={"/assets/icons/date-icon.svg"}
+                        height={20}
+                        width={20}
+                      />{" "}
+                      Date
+                    </SelectItem>
+                    <SelectItem value="Time" className="flex gap-4">
+                      <Image
+                        src={"/assets/icons/time-icon.svg"}
+                        height={20}
+                        width={20}
+                      />{" "}
+                      Time
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -403,31 +472,30 @@ export default function EditService(id) {
                 <Trash2 className="w-5 h-5 text-red-500" />
               </button>
             </div>
-
-            <FieldEditor
-              page={page}
-              addField={() => openAddFieldModal(page.id)}
-              deleteField={deleteField}
-              onUpdateField={updateField}
-              onSave={handleSave}
-            />
-
-            <ButtonEditor
-              page={page}
-              onChangeButtonText={handleButtonTextChange}
-              onCreateAction={() => openCreateActionModal(page.id)}
-              onPreviewAction={() => openActionModal(page.id)}
-              onDeleteAction={handleDeleteAction}
-              onSaveChanges={handleSaveChanges}
-            />
-
-            <SelectionEditor
-              page={page}
-              onChangeFieldName={handleChangeFieldName}
-              onPreviewField={() => openSelectionModal(page.id)}
-              onDeleteField={deleteField}
-              onSaveChanges={handleSaveChanges}
-            />
+            <div className=" rounded-lg p-6 border-2">
+              <FieldEditor
+                page={page}
+                addField={() => openAddFieldModal(page.id)}
+                deleteField={deleteField}
+                onUpdateField={updateField}
+                onSave={handleSave}
+              />
+              <ButtonEditor
+                page={page}
+                onChangeButtonText={handleButtonTextChange}
+                onCreateAction={() => openCreateActionModal(page.id)}
+                onPreviewAction={() => openActionModal(page.id)}
+                onDeleteAction={handleDeleteAction}
+                onSaveChanges={handleSaveChanges}
+              />
+              <SelectionEditor
+                page={page}
+                onChangeFieldName={handleChangeFieldName}
+                onPreviewField={() => openSelectionModal(page.id)}
+                onDeleteField={deleteField}
+                onSaveChanges={handleSaveChanges}
+              />
+            </div>
           </div>
         ))}
 
