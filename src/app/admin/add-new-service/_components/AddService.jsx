@@ -375,30 +375,35 @@ export default function AddService() {
                           src={"/assets/icons/input-icon.svg"}
                           height={20}
                           width={20}
+                          alt=""
                         />
                       ) : page.type === "Button" ? (
                         <Image
                           src={"/assets/icons/button-icon.svg"}
                           height={20}
                           width={20}
+                          alt=""
                         />
                       ) : page.type === "Selection" ? (
                         <Image
                           src={"/assets/icons/section-icon.svg"}
                           height={20}
                           width={20}
+                          alt=""
                         />
                       ) : page.type === "Date" ? (
                         <Image
                           src={"/assets/icons/date-icon.svg"}
                           height={20}
                           width={20}
+                          alt=""
                         />
                       ) : page.type === "Time" ? (
                         <Image
                           src={"/assets/icons/time-icon.svg"}
                           height={20}
                           width={20}
+                          alt=""
                         />
                       ) : (
                         ""
@@ -412,6 +417,7 @@ export default function AddService() {
                         src={"/assets/icons/input-icon.svg"}
                         height={20}
                         width={20}
+                        alt=""
                       />{" "}
                       Input
                     </SelectItem>
@@ -420,6 +426,7 @@ export default function AddService() {
                         src={"/assets/icons/button-icon.svg"}
                         height={20}
                         width={20}
+                        alt=""
                       />{" "}
                       Button
                     </SelectItem>
@@ -428,6 +435,7 @@ export default function AddService() {
                         src={"/assets/icons/section-icon.svg"}
                         height={20}
                         width={20}
+                        alt=""
                       />{" "}
                       Selection
                     </SelectItem>
@@ -436,6 +444,7 @@ export default function AddService() {
                         src={"/assets/icons/date-icon.svg"}
                         height={20}
                         width={20}
+                        alt=""
                       />{" "}
                       Date
                     </SelectItem>
@@ -444,6 +453,7 @@ export default function AddService() {
                         src={"/assets/icons/time-icon.svg"}
                         height={20}
                         width={20}
+                        alt=""
                       />{" "}
                       Time
                     </SelectItem>

@@ -73,18 +73,21 @@ export default function FieldEditor({
                       src={"/assets/icons/option-icon.svg"}
                       height={20}
                       width={20}
+                      alt=""
                     />
                   ) : field.type === "Text" ? (
                     <Image
                       src={"/assets/icons/text-icon.svg"}
                       height={20}
                       width={20}
+                      alt=""
                     />
                   ) : field.type === "Text Aria" ? (
                     <Image
                       src={"/assets/icons/textaria-icon.svg"}
                       height={20}
                       width={20}
+                      alt=""
                     />
                   ) : (
                     ""
@@ -101,6 +104,7 @@ export default function FieldEditor({
                     src={"/assets/icons/option-icon.svg"}
                     height={20}
                     width={20}
+                    alt=""
                   />{" "}
                   Option
                 </SelectItem>
@@ -112,6 +116,7 @@ export default function FieldEditor({
                     src={"/assets/icons/text-icon.svg"}
                     height={20}
                     width={20}
+                    alt=""
                   />{" "}
                   Text
                 </SelectItem>
@@ -120,6 +125,7 @@ export default function FieldEditor({
                     src={"/assets/icons/textaria-icon.svg"}
                     height={20}
                     width={20}
+                    alt=""
                   />{" "}
                   Text Aria
                 </SelectItem>
