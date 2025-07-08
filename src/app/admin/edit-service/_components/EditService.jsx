@@ -17,7 +17,8 @@ import AddFieldModal from "../../add-new-service/_components/AddFieldModal";
 import CreateActionModal from "../../add-new-service/_components/CreateActionModal";
 import ActionModal from "../../add-new-service/_components/ActionModal";
 import SelectionModal from "../../add-new-service/_components/SelectionModal";
-
+import UploadImage from "../../add-new-service/_components/UploadImage";
+import ServiceName from "../../add-new-service/_components/ServiceName";
 
 export default function EditService(id) {
   const [pages, setPages] = useState([
@@ -209,10 +210,10 @@ export default function EditService(id) {
           ? []
           : [
               {
-                  id: Date.now().toString() + "-f",
-                  name: newFieldName,
-                  type: newFieldType,
-                  price: newFieldPrice,
+                id: Date.now().toString() + "-f",
+                name: newFieldName,
+                type: newFieldType,
+                price: newFieldPrice,
               },
             ],
       ...(newPageType === "Button"
@@ -238,7 +239,12 @@ export default function EditService(id) {
               ...page,
               fields: [
                 ...page.fields,
-                { id: Date.now().toString(), name: fieldName, type: fieldType, price: price },
+                {
+                  id: Date.now().toString(),
+                  name: fieldName,
+                  type: fieldType,
+                  price: price,
+                },
               ],
             }
           : page
@@ -297,7 +303,12 @@ export default function EditService(id) {
               ...page,
               fields: [
                 ...page.fields,
-                { id: Date.now().toString(), name: newOption.text, type: newOption.type, price: newOption.price },
+                {
+                  id: Date.now().toString(),
+                  name: newOption.text,
+                  type: newOption.type,
+                  price: newOption.price,
+                },
               ],
             }
           : page
@@ -336,7 +347,8 @@ export default function EditService(id) {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-8xl mx-auto space-y-6">
+      <ServiceName/>
+      <div className="max-w-5xl mx-auto space-y-6">
         {pages.map((page, index) => (
           <div
             key={page.id}
@@ -383,9 +395,7 @@ export default function EditService(id) {
                 }
                 className="w-full px-4 py-3 border border-[#00000033] rounded-lg text-center"
               />
-              <div className="w-12 h-12 border border-[#00000033] rounded-lg flex items-center justify-center">
-                <ImageIcon className="w-5 h-5 text-gray-400" />
-              </div>
+              <UploadImage />
               <button
                 onClick={() => deletePage(page.id)}
                 className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center hover:bg-red-200 transition-colors cursor-pointer"
@@ -488,14 +498,21 @@ export default function EditService(id) {
       <SelectionModal
         show={showSelectionModal}
         onClose={() => setShowSelectionModal(false)}
-        selectionOptions={pages.find((p) => p.id === currentPageId)?.fields || []}
+        selectionOptions={
+          pages.find((p) => p.id === currentPageId)?.fields || []
+        }
         onAddOption={handleAddSelection}
         onDeleteOption={(optionId) => {
-          setPages((prevPages) => prevPages.map((page) =>
-            page.id === currentPageId
-              ? { ...page, fields: page.fields.filter((f) => f.id !== optionId) }
-              : page
-          ));
+          setPages((prevPages) =>
+            prevPages.map((page) =>
+              page.id === currentPageId
+                ? {
+                    ...page,
+                    fields: page.fields.filter((f) => f.id !== optionId),
+                  }
+                : page
+            )
+          );
         }}
         onSave={() => setShowSelectionModal(false)}
         newOption={newOption}

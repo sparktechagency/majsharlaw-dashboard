@@ -17,6 +17,9 @@ import SelectionModal from "./SelectionModal";
 import SelectionEditor from "./SelectionEditor";
 import ButtonEditor from "./ButtonEditor";
 import FieldEditor from "./FieldEditor";
+import Image from "next/image";
+import UploadImage from "./UploadImage";
+import ServiceName from "./ServiceName";
 
 export default function AddService() {
   const [pages, setPages] = useState([
@@ -208,10 +211,10 @@ export default function AddService() {
           ? []
           : [
               {
-                  id: Date.now().toString() + "-f",
-                  name: newFieldName,
-                  type: newFieldType,
-                  price: newFieldPrice,
+                id: Date.now().toString() + "-f",
+                name: newFieldName,
+                type: newFieldType,
+                price: newFieldPrice,
               },
             ],
       ...(newPageType === "Button"
@@ -237,7 +240,12 @@ export default function AddService() {
               ...page,
               fields: [
                 ...page.fields,
-                { id: Date.now().toString(), name: fieldName, type: fieldType, price: price },
+                {
+                  id: Date.now().toString(),
+                  name: fieldName,
+                  type: fieldType,
+                  price: price,
+                },
               ],
             }
           : page
@@ -296,7 +304,12 @@ export default function AddService() {
               ...page,
               fields: [
                 ...page.fields,
-                { id: Date.now().toString(), name: newOption.text, type: newOption.type, price: newOption.price },
+                {
+                  id: Date.now().toString(),
+                  name: newOption.text,
+                  type: newOption.type,
+                  price: newOption.price,
+                },
               ],
             }
           : page
@@ -335,12 +348,11 @@ export default function AddService() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-8xl mx-auto space-y-6">
+<ServiceName/>
+
+      <div className="max-w-5xl mx-auto space-y-6">
         {pages.map((page, index) => (
-          <div
-            key={page.id}
-            className="bg-white rounded-lg p-6 shadow-sm border"
-          >
+          <div key={page.id} className=" rounded-lg p-6 border-2">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-medium">Page {index + 1}</h2>
               <div className="flex items-center gap-4">
@@ -382,9 +394,7 @@ export default function AddService() {
                 }
                 className="w-full px-4 py-3 border border-[#00000033] rounded-lg text-center"
               />
-              <div className="w-12 h-12 border border-[#00000033] rounded-lg flex items-center justify-center">
-                <ImageIcon className="w-5 h-5 text-gray-400" />
-              </div>
+              <UploadImage />
               <button
                 onClick={() => deletePage(page.id)}
                 className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center hover:bg-red-200 transition-colors cursor-pointer"
@@ -487,14 +497,21 @@ export default function AddService() {
       <SelectionModal
         show={showSelectionModal}
         onClose={() => setShowSelectionModal(false)}
-        selectionOptions={pages.find((p) => p.id === currentPageId)?.fields || []}
+        selectionOptions={
+          pages.find((p) => p.id === currentPageId)?.fields || []
+        }
         onAddOption={handleAddSelection}
         onDeleteOption={(optionId) => {
-          setPages((prevPages) => prevPages.map((page) =>
-            page.id === currentPageId
-              ? { ...page, fields: page.fields.filter((f) => f.id !== optionId) }
-              : page
-          ));
+          setPages((prevPages) =>
+            prevPages.map((page) =>
+              page.id === currentPageId
+                ? {
+                    ...page,
+                    fields: page.fields.filter((f) => f.id !== optionId),
+                  }
+                : page
+            )
+          );
         }}
         onSave={() => setShowSelectionModal(false)}
         newOption={newOption}

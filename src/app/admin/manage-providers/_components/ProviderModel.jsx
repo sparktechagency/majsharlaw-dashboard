@@ -108,14 +108,18 @@ export default function ProviderModal({ isOpen, onClose, provider }) {
                 <span className="text-gray-500 ml-1">({reviewsCount})</span>
               </div>
               <div className="flex justify-center space-x-2">
-                {categories.map((cat, i) => (
-                  <span
-                    key={i}
-                    className="bg-[#6DA40A] text-white px-4 py-2 rounded-full text-sm font-medium"
-                  >
-                    {cat}
-                  </span>
-                ))}
+                {categories.length > 0 ? (
+                  categories.map((cat, i) => (
+                    <span
+                      key={i}
+                      className="bg-[#6DA40A] text-white px-4 py-2 rounded-full text-sm font-medium"
+                    >
+                      {cat}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-sm text-gray-500">N/A</span>
+                )}
               </div>
             </div>
           </div>
@@ -131,7 +135,7 @@ export default function ProviderModal({ isOpen, onClose, provider }) {
                     About
                   </h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
-                    {about}
+                    {about ? about : "N/A"}
                   </p>
                 </div>
 
@@ -143,8 +147,14 @@ export default function ProviderModal({ isOpen, onClose, provider }) {
                   <div className="space-y-3">
                     <OverviewItem icon="phone" text={phone} />
                     <OverviewItem icon="map" text={location} />
-                    <OverviewItem icon="users" text={`${employees} employees`} />
-                    <OverviewItem icon="briefcase" text={`${experience} in business`} />
+                    <OverviewItem
+                      icon="users"
+                      text={`${employees} employees`}
+                    />
+                    <OverviewItem
+                      icon="briefcase"
+                      text={`${experience} in business`}
+                    />
                   </div>
                 </div>
               </div>
@@ -164,30 +174,38 @@ export default function ProviderModal({ isOpen, onClose, provider }) {
                     </button>
                   </div>
                   <div className="space-y-3">
-                    {historyItems.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex items-center space-x-3">
-                          <img
-                            src="/assets/user.png"
-                            alt={item.name}
-                            className="w-10 h-10 rounded-full"
-                          />
-                          <div>
-                            <h4 className="font-medium text-gray-900">
-                              {item.name}
-                            </h4>
-                            <p className="text-sm text-gray-500">
-                              {item.location}
-                            </p>
-                            <p className="text-sm text-gray-500">{item.date}</p>
+                    {historyItems.length > 0 ? (
+                      historyItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <img
+                              src="/assets/user.png"
+                              alt={item.name}
+                              className="w-10 h-10 rounded-full"
+                            />
+                            <div>
+                              <h4 className="font-medium text-gray-900">
+                                {item.name}
+                              </h4>
+                              <p className="text-sm text-gray-500">
+                                {item.location}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                {item.date}
+                              </p>
+                            </div>
                           </div>
+                          <StatusBadge status={item.status} />
                         </div>
-                        <StatusBadge status={item.status} />
-                      </div>
-                    ))}
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-500">
+                        No history available
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -249,7 +267,9 @@ function OverviewItem({ icon, text }) {
       >
         {icons[icon]}
       </svg>
-      <span className="text-gray-700">{text}</span>
+      <span className="text-gray-700">
+        {text && text !== "" ? text : "N/A"}
+      </span>
     </div>
   );
 }
