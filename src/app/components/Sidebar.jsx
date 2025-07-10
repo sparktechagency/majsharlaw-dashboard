@@ -13,11 +13,15 @@ import {
   KeyRound as KeyIcon,
   ShieldAlert,
   Info,
+  StoreIcon,
+  UsersRound,
+  MessageSquare,
+  ThumbsUp,
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-const userRole = "admin";
+const userRole = "user";
 
 const navItems =
   userRole === "admin"
@@ -33,19 +37,19 @@ const navItems =
         {
           name: "Company Settings",
           href: "/company/company-settings",
-          icon: LayoutDashboard,
+          icon: StoreIcon,
         },
         {
           name: "Service Providers",
           href: "/company/service-providers",
-          icon: LayoutDashboard,
+          icon: UsersRound,
         },
-        { name: "Orders", href: "/company/orders", icon: LayoutDashboard },
-        { name: "Chats", href: "/company/chats", icon: LayoutDashboard },
+        { name: "Orders", href: "/company/orders", icon: LibraryBig },
+        { name: "Chats", href: "/company/chats", icon: MessageSquare },
         {
           name: "Feedbacks",
           href: "/company/feedbacks",
-          icon: LayoutDashboard,
+          icon: ThumbsUp,
         },
       ];
 
