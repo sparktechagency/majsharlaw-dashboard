@@ -21,7 +21,7 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-const userRole = "user";
+const userRole = "admin";
 
 const navItems =
   userRole === "admin"
